@@ -52,7 +52,7 @@ export const googleAuthController = async (req, res)=>{
 }
 
 //LogOut Controller
-export const logOutController = ()=>{
+export const logOutController = async()=>{
     try{
        const sessionId = req.cookies?.sessionId
 
