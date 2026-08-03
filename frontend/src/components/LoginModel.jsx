@@ -1,8 +1,16 @@
 import { RxCross2 } from "react-icons/rx";
 import { FcGoogle } from "react-icons/fc";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
+import { useAuth } from "../features/auth/hooks/useAuth";
 
 export function LoginModel({ onClose }) {
+  const { handleGoogleLogin } = useAuth();
+
+  const handleLogin = async () => {
+    await handleGoogleLogin();
+    onClose();
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/10 backdrop-blur-md px-8">
       <div className="relative w-full max-w-sm bg-[#0A0A0A] border border-white/10 rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.25)] ">
@@ -17,9 +25,7 @@ export function LoginModel({ onClose }) {
           >
             <RxCross2 size={20} />
           </button>
-          <h2
-            className="text-lg font-bold text-center mb-2 text-white "
-          >
+          <h2 className="text-lg font-bold text-center mb-2 text-white ">
             Sign in to{" "}
             <span className="font-extrabold text-lg tracking-tight text-white">
               PathPilot
@@ -39,6 +45,7 @@ export function LoginModel({ onClose }) {
           {/* google login button */}
           <div className="mt-7">
             <motion.button
+              onClick={handleLogin}
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.95 }}
               className="w-full flex items-center justify-center  
@@ -48,7 +55,7 @@ export function LoginModel({ onClose }) {
                 hover:border-white/25
                 hover:bg-white/[0.14]
                 shadow-inner
-                transition-all py-2"
+                transition-all py-2 cursor-pointer"
             >
               <FcGoogle size={20} />
               <span className="text-white font-bold text-sm">

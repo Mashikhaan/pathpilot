@@ -6,7 +6,7 @@ const authRouter = express.Router();
 
 //Login route
 
-authRouter.post("/login",googleAuthController)
+authRouter.post("/google",googleAuthController)
 
 
 //LogOut route
