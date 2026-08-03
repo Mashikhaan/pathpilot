@@ -2,13 +2,16 @@ import { RxCross2 } from "react-icons/rx";
 import { FcGoogle } from "react-icons/fc";
 import { motion } from "motion/react";
 import { useAuth } from "../features/auth/hooks/useAuth";
+import { useNavigate } from "react-router";
 
 export function LoginModel({ onClose }) {
   const { handleGoogleLogin } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     await handleGoogleLogin();
     onClose();
+     navigate("/dashboard");
   };
 
   return (

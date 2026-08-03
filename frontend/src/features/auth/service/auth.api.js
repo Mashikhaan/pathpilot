@@ -30,3 +30,15 @@ export const googleLogin = async () => {
         throw error;
     }
 };
+
+//current user
+export const getCurrentUser = async () => {
+    try {
+        const response = await AuthApiInstance.get("/api/get-me")
+        console.log("Current User:", response.data);
+        return response.data
+    } catch (error) {
+        console.log("Error getting current user:", error);
+        throw error;
+    }
+}

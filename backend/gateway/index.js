@@ -5,7 +5,8 @@ import dotenv from "dotenv";
 dotenv.config();
 import cors from "cors";
 import cookieParser from "cookie-parser";
-
+import { isAuth } from "./middleware/isAuth.js";
+import { getCurrentUser } from "./controllers/user.controller.js";
 
 const PORT = process.env.PORT || 6000;
 
@@ -30,6 +31,8 @@ app.use(morgan("dev"));
 //proxy routes
 app.use("/api/auth", proxy(process.env.AUTH_SERVICE_URL));
 
+//current user
+app.get("/api/get-me", isAuth,getCurrentUser);
 
 
 app.listen(PORT, ()=>{
