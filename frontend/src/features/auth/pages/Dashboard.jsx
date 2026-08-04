@@ -1,8 +1,16 @@
 import React from 'react'
+import Sidebar from '../components/Sidebar'
+import MainContent from '../components/MainContent'
+import { useState } from 'react';
 
 const Dashboard = () => {
+  
+    const [collapsed, setCollapsed] = useState(false);
   return (
-    <div className='text-3xl font-bold bg-blue-400'>Dashboard</div>
+    <div className='bg-gray-200 min-h-screen flex'>
+     <Sidebar collapsed={collapsed} setCollapsed={setCollapsed}/>
+    
+    </div>
   )
 }
 
