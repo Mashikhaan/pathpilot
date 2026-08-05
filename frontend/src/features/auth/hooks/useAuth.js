@@ -1,4 +1,4 @@
-import { googleLogin, getCurrentUser }  from "../service/auth.api.js";
+import { googleLogin, getCurrentUser, logOutUser }  from "../service/auth.api.js";
 import { setUser, setLoading, setError } from "../state/auth.slice.js";
 import { useDispatch } from "react-redux";
 
@@ -11,7 +11,7 @@ export const useAuth = () =>{
      //handle google login
      const handleGoogleLogin = async () => {
        const data = await googleLogin();
-       dispatch(setUser(data));
+       dispatch(setUser(data?.user || data));
       
      }
 
@@ -29,5 +29,18 @@ export const useAuth = () =>{
        }
      }
 
-    return {handleGoogleLogin, handleCurrentUser}
+     //handle logout user
+     const handleLogout = async() =>{
+      try {
+        dispatch(setLoading(true));
+        await logOutUser();
+        dispatch(setUser(null));
+      } catch (error) {
+        dispatch(setError(error.message));
+      } finally {
+        dispatch(setLoading(false));
+      }
+     }
+
+    return {handleGoogleLogin, handleCurrentUser, handleLogout}
 }

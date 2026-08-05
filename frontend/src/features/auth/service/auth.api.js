@@ -42,3 +42,12 @@ export const getCurrentUser = async () => {
         throw error;
     }
 }
+
+//logout user
+export const logOutUser = async () => {
+    try{
+        await AuthApiInstance.post("/api/logout");
+    }catch(error){
+        console.log("Error logging out user:", error);
+    }
+}

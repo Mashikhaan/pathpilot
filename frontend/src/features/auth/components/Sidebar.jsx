@@ -9,9 +9,29 @@ import { WiStars } from "react-icons/wi";
 import { FiPlus } from "react-icons/fi";
 import { FaRightFromBracket } from "react-icons/fa6";
 import { useNavigate } from "react-router";
+import {useSelector} from "react-redux"
+import { useAuth } from "../hooks/useAuth";
 
 const Sidebar = ({ collapsed, setCollapsed, mobileView, setMobileView }) => {
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
+  const {handleLogout} = useAuth();
+
+  //User Avatar
+  const avatar = user?.name
+    ? user.name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
+    : "U";
+
+  //User Name
+    const userName = user?.name
+    //User Email
+    const userEmail = user?.email
+
+  //Logout user function
+  const logOut = () =>{
+    handleLogout();
+    navigate("/");
+  }
 
   // Nav Items
   const NAV_ITEMS = [
@@ -171,13 +191,13 @@ const Sidebar = ({ collapsed, setCollapsed, mobileView, setMobileView }) => {
 
           {/* Account */}
           <div
-            className={`bg-gray-200 border rounded-md flex items-center cursor-pointer ${
-              collapsed ? "justify-center p-2" : "justify-between px-4 py-2"
+            className={`bg-gray-200 border rounded-md flex items-center cursor-pointer  ${
+              collapsed ? "justify-center p-2" : "justify-between px-2 py-2"
             }`}
           >
             <div className="flex items-center  gap-2 ">
               <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center shadow-[0_0_0_2px_black] hover:bg-black/95 ">
-                <span className="text-[10px] font-semibold text-white">MM</span>
+                <span className="text-[10px] font-semibold text-white">{avatar}</span>
               </div>
 
               <motion.div
@@ -190,9 +210,9 @@ const Sidebar = ({ collapsed, setCollapsed, mobileView, setMobileView }) => {
                 className="overflow-hidden whitespace-nowrap"
               >
                 <div>
-                  <span className="text-xs text-black">MOHD MASIHULLA</span>
-                  <p className="text-[10px] text-gray-400">
-                    mashikhanwork@gmail.com
+                  <span className="text-xs text-black">{userName}</span>
+                  <p className="text-[11px] text-gray-400">
+                    {userEmail}
                   </p>
                 </div>
               </motion.div>
@@ -208,7 +228,8 @@ const Sidebar = ({ collapsed, setCollapsed, mobileView, setMobileView }) => {
               transition={{ duration: 0.2 }}
               className="overflow-hidden"
             >
-              <FaRightFromBracket className="text-black" size={12} />
+              <FaRightFromBracket onClick={logOut}
+               className="text-black hover:text-black/80 hover:scale-105 inline-block hover:scale-105 transition-all duration-200 ease-in-out " size={14} />
             </motion.div>
           </div>
         </div>
