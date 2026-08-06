@@ -30,6 +30,7 @@ app.use(morgan("dev"));
 
 //proxy routes
 app.use("/api/auth", proxy(process.env.AUTH_SERVICE_URL));
+app.use("/api/resume", proxy(process.env.RESUME_SERVICE_URL));
 
 //current user
 app.get("/api/get-me", isAuth,getCurrentUser);

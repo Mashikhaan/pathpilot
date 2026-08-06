@@ -2,7 +2,7 @@ import React from 'react'
 
 const MainContent = () => {
   return (
-    <div className='border border-l-2 border-black'>MainContent</div>
+    <div className='flex-1 border bg-red-800'>MainContent</div>
   )
 }
 
