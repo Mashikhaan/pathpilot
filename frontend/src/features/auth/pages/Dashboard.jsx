@@ -15,7 +15,7 @@ const Dashboard = () => {
       {/* Main — desktop margin matches sidebar width */}
      <main
     className={`flex-1 transition-all duration-500 h-screen bg-gray-100 ${
-      collapsed ? "ml-[72px]" : "ml-[250px]"
+      collapsed ? `ml-18` : `ml-62.5`
     }`}
   >
     <MainContent />

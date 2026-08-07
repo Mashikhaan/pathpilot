@@ -30,7 +30,7 @@ const Sidebar = ({ collapsed, setCollapsed, mobileView, setMobileView }) => {
   //Logout user function
   const logOut = () =>{
     handleLogout();
-    navigate("/");
+    
   }
 
   // Nav Items
@@ -229,7 +229,7 @@ const Sidebar = ({ collapsed, setCollapsed, mobileView, setMobileView }) => {
               className="overflow-hidden"
             >
               <FaRightFromBracket onClick={logOut}
-               className="text-black hover:text-black/80 hover:scale-105 inline-block hover:scale-105 transition-all duration-200 ease-in-out " size={14} />
+               className="text-black hover:text-black/80  inline-block hover:scale-105 transition-all duration-200 ease-in-out " size={14} />
             </motion.div>
           </div>
         </div>

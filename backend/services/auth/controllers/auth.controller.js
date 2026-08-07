@@ -13,7 +13,7 @@ export const googleAuthController = async (req, res)=>{
         let user = await userModel.findOne({
             firebaseUid: decoded.uid
         })
-
+        
         if(!user){
             user = await userModel.create({
                 firebaseUid: decoded.uid,
@@ -52,9 +52,9 @@ export const googleAuthController = async (req, res)=>{
 }
 
 //LogOut Controller
-export const logOutController = async()=>{
+export const logOutController = async(req,res)=>{
     try{
-       const sessionId = req.cookies?.sessionId
+       const sessionId = req.cookies?.session;
 
        if(sessionId){
         await redis.del(`session:${sessionId}`)

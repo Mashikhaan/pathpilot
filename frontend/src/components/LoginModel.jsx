@@ -11,7 +11,6 @@ export function LoginModel({ onClose }) {
   const handleLogin = async () => {
     await handleGoogleLogin();
     onClose();
-     navigate("/dashboard");
   };
 
   return (
