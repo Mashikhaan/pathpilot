@@ -10,6 +10,8 @@ const app = express();
 
 const PORT = process.env.PORT || 6002
 
+app.use(express.json());
+
 app.get("/", (req, res)=>{
     res.send("hello from resume service");
 })

@@ -86,3 +86,49 @@ export const uploadResumeController =async(req, res) => {
         })
     }
 }
+
+
+//Get Resume Controller
+export const getResumeController = async(req, res) => {
+    try{
+        //get user id from custom header
+        const userId = req.headers["x-user_id"];
+
+        //get resume from redis
+        const cache = await redis.get(`resume:${userId}`);
+
+        if(cache){
+            return res.status(200).json({
+                success: true,
+                data: JSON.parse(cache)
+            })
+        }
+
+        //if not exist then get from mongodb
+        const resume = await resumeModel.findOne({userId});
+         
+        if(!resume){
+            return res.status(404).json({
+                success: false,
+                message: "Resume not found"
+            })
+        }
+
+        //save in redis for fast access
+        await redis.set(`resume:${userId}`,JSON.stringify(resume));
+
+        return res.status(200).json({
+            success: true,
+            data: resume
+        })
+
+    }catch(error){
+
+        console.log(error)
+
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
