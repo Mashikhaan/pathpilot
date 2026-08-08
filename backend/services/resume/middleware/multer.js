@@ -1,6 +1,15 @@
 import fs from 'fs';
 import multer from 'multer';
-import uploadPath from '../upload';
+// import uploadPath from '../upload';
+import { fileURLToPath } from "url";
+import path from "path";
+
+//for  __dirname create in ES6 modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// upload folder ka path
+const uploadPath = path.join(__dirname, "../upload");
 
 
 //check if upload directory exists

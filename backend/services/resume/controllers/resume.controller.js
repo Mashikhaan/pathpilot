@@ -65,7 +65,7 @@ export const uploadResumeController =async(req, res) => {
         await redis.set(`resume:${userId}`,JSON.stringify(resume));
 
         //delete pdf from storage(temporary)
-        fs.unlink(file.path)
+        fs.unlinkSync(file.path)
 
         return res.status(200).json({
             success: true,
@@ -77,7 +77,7 @@ export const uploadResumeController =async(req, res) => {
         console.log(error);
         if(file){
             //delete pdf from storage(temporary) otherwise it will remain in storage
-             fs.unlink(file.path)
+             fs.unlinkSync(file.path)
         }
 
         return res.status(500).json({

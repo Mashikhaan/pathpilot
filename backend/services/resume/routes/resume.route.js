@@ -7,7 +7,7 @@ const resumeRouter = express.Router();
 
 
 //upload resume route
-resumeRouter.post("/upload",upload, uploadResumeController);
+resumeRouter.post("/upload",upload.single("resume"), uploadResumeController);
 
 //get resume route
 resumeRouter.get("/get-resume", getResumeController );
