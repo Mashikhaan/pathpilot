@@ -3,8 +3,11 @@ import { motion, AnimatePresence } from "motion/react";
 import { useSelector } from "react-redux";
 import { useResume } from "../hooks/useResume";
 import { GiArtificialHive } from "react-icons/gi";
+import { useNavigate } from "react-router";
 
 const Scorer = () => {
+  const navigate = useNavigate();
+  
   const { handleUploadResume, handleGetResume } = useResume();
 
   const resume = useSelector((state) => state.resume.resume);
@@ -215,7 +218,8 @@ const handleDrop = (e) => {
         }}
         className="fixed left-0 top-0 z-50 flex w-full items-center justify-between border-b border-white/10 bg-black px-8 py-3"
       >
-        <div className="flex h-14.5 w-full items-center justify-between px-8">
+        <div onClick={() => navigate("/dashboard")}
+         className="flex h-14.5 w-full items-center justify-between px-8 cursor-pointer">
           {/* Logo */}
 
           <div className="flex items-center gap-2">
