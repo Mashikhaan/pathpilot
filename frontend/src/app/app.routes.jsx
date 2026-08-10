@@ -25,5 +25,6 @@ export const router = createBrowserRouter([
         element: <Protected>
             <Scorer/>
             </Protected>
-    }
+    },
+   
 ])

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 //resume schema
 const resumeSchema = new mongoose.Schema({
-    userid:{
+    userId:{
         type: String,
         required: true,
         unique: true,

@@ -11,10 +11,12 @@ import fs from "fs";
 
 //Upload Resume Controller
 export const uploadResumeController =async(req, res) => {
+
+    let file
     try {
 
         //get file from body
-        const file = req.file;
+         file = req.file;
 
         //check file exist
         if(!file){
@@ -100,6 +102,7 @@ export const getResumeController = async(req, res) => {
         if(cache){
             return res.status(200).json({
                 success: true,
+                source: "redis",
                 data: JSON.parse(cache)
             })
         }
@@ -119,6 +122,7 @@ export const getResumeController = async(req, res) => {
 
         return res.status(200).json({
             success: true,
+            source: "mongodb",
             data: resume
         })
 
