@@ -216,19 +216,20 @@ const handleDrop = (e) => {
           duration: 0.5,
           ease: "easeInOut",
         }}
-        className="fixed left-0 top-0 z-50 flex w-full items-center justify-between border-b border-white/10 bg-black px-8 py-3"
+        className="fixed left-0 top-0 z-50 flex w-full items-center justify-between border-b border-white/10 px-8 py-3"
       >
         <div onClick={() => navigate("/dashboard")}
          className="flex h-14.5 w-full items-center justify-between px-8 cursor-pointer">
-          {/* Logo */}
+       
 
-          <div className="flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white">
-              <GiArtificialHive size={15} color="black" />
-            </div>
+          <div className="flex items-center gap-2 bg-white p-2">
+          
 
-            <span className="text-base font-extrabold tracking-tight text-white">
+            <span className="text-base font-extrabold tracking-tight text-black">
               PathPilot
+            </span>
+             <span className="hidden rounded bg-black/5 px-1.5 py-0.5 text-[10px] text-black/50 sm:block">
+              Resume Scorer
             </span>
           </div>
 

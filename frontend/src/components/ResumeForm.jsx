@@ -255,7 +255,7 @@ const ResumeForm = ({ step, data, setData }) => {
 
         <button
           onClick={addProject}
-          className="flex items-center justify-center gap-1.5 w-full py-2.5 border border-dashed border-black/20 rounded-xl text-xs text-black/45 hover:border-black/40 hover:text-[#0A0A0A] transition-all"
+          className="flex items-center justify-center gap-1.5 w-full py-2.5 border border-dashed border-black/20 rounded-xl text-xs text-black/45 hover:border-black/40 hover:text-[#0A0A0A] transition-all cursor-pointer"
         >
           <FiPlus size={13} />
           Add Project
@@ -304,7 +304,7 @@ const ResumeForm = ({ step, data, setData }) => {
 
         <button
           onClick={addEdu}
-          className="flex items-center justify-center gap-1.5 w-full py-2.5 border border-dashed border-black/20 rounded-xl text-xs text-black/45 hover:border-black/40 hover:text-[#0A0A0A] transition-all"
+          className="flex items-center justify-center gap-1.5 w-full py-2.5 border border-dashed border-black/20 rounded-xl text-xs text-black/45 hover:border-black/40 hover:text-[#0A0A0A] transition-all cursor-pointer"
         >
           <FiPlus size={13} />
           Add Education
