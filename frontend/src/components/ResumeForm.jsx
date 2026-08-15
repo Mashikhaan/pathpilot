@@ -62,7 +62,7 @@ const ResumeForm = ({ step, data, setData }) => {
         <Input
           label="Full Name"
           value={data.name}
-          onChange={(v) => setData({ ...data, name })}
+          onChange={(name) => setData({ ...data, name })}
           placeholder="Mohd Masihulla"
         />
         {/* Email */}
