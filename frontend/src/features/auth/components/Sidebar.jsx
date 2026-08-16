@@ -100,7 +100,7 @@ const Sidebar = ({ collapsed, setCollapsed, mobileView, setMobileView }) => {
 
     <span
       className={`whitespace-nowrap transition-all duration-300
-      ${collapsed ? "opacity-0 max-w-0" : "opacity-100 max-w-[200px]"}`}
+      ${collapsed ? "opacity-0 max-w-0" : "opacity-100 max-w-50"}`}
     >
       Create Interview
     </span>
@@ -167,8 +167,8 @@ const Sidebar = ({ collapsed, setCollapsed, mobileView, setMobileView }) => {
                 className="overflow-hidden whitespace-nowrap"
               >
                 <div className="flex flex-col">
-                  <span className="text-white text-xs">Interview Coins</span>
-                  <span className="text-white text-xs">3500</span>
+                 <span className="text-white text-xs">Interview Coins</span>
+<span className="text-white text-xs">{user?.interviewCoin || 0}</span>
                 </div>
               </motion.div>
             </div>
