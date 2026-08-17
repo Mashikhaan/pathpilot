@@ -52,3 +52,15 @@ export const logOutUser = async () => {
     throw error;
   }
 };
+
+
+//use coin
+export const useCoin = async (coins, action) => {
+    try{
+        const response = await AuthApiInstance.post("/api/auth/use-coins",{coins, action});
+        return response.data
+    }catch(error){
+        console.log("Error using coin:", error);
+        throw error
+    }
+}

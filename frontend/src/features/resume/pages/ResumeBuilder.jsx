@@ -10,7 +10,6 @@ import { useSelector } from "react-redux";
 import { setUser } from "../../auth/state/auth.slice";
 
 
-
 // Step config — title + subtitle for each step
 const STEPS = [
   {

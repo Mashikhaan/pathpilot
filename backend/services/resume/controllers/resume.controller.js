@@ -76,17 +76,17 @@ export const uploadResumeController =async(req, res) => {
         })
      
     } catch (error) {
-        console.log(error);
-        if(file){
-            //delete pdf from storage(temporary) otherwise it will remain in storage
-             fs.unlinkSync(file.path)
-        }
+    console.log("UPLOAD RESUME ERROR:", error);
 
-        return res.status(500).json({
-            success: false,
-            message: error.message
-        })
+    if (file?.path && fs.existsSync(file.path)) {
+        fs.unlinkSync(file.path);
     }
+
+    return res.status(500).json({
+        success: false,
+        message: error.message
+    });
+}
 }
 
 

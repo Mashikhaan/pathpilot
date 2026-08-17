@@ -4,10 +4,12 @@ import { useSelector } from "react-redux";
 import { useResume } from "../hooks/useResume";
 import { GiArtificialHive } from "react-icons/gi";
 import { useNavigate } from "react-router";
+import { useUpdateCoin } from "../../auth/hooks/useCoin";
 
 const Scorer = () => {
   const navigate = useNavigate();
-  
+  const { handleUseCoin } = useUpdateCoin();
+
   const { handleUploadResume, handleGetResume } = useResume();
 
   const resume = useSelector((state) => state.resume.resume);
@@ -133,6 +135,9 @@ const handleDrop = (e) => {
       if (!result?.success) {
         throw new Error(result?.message || "Resume analysis failed");
       }
+     
+      // Analysis successful hone ke baad 10 coins deduct
+await handleUseCoin(10, "resume_analysis");
 
       setProgress(95);
       setAnalysisStatus("Generating your resume score...");

@@ -15,6 +15,6 @@ authRouter.post("/logout", logOutController)
 
 
 //user coins route
-authRouter.post("/user-coins", useCoinsController)
+authRouter.post("/use-coins", useCoinsController)
 
 export default authRouter

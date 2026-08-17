@@ -1,6 +1,9 @@
 import React from "react";
 
+
 const ATSTemplate = ({ data }) => {
+
+
   //get data
   const {
     name,

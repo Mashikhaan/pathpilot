@@ -1,8 +1,10 @@
 import React from 'react'
 import {FiDownload} from 'react-icons/fi'
 import { useReactToPrint } from "react-to-print";
+import { useUpdateCoin } from "../../auth/hooks/useCoin";
 
 const DownloadBtn = ({docsRef, user, setUser}) => {
+const{handleUseCoin} = useUpdateCoin()
 
  //handle pdf
  const handlePdf = useReactToPrint({
@@ -28,7 +30,10 @@ const DownloadBtn = ({docsRef, user, setUser}) => {
 
 //handle download
 const handleDownload = async()=>{
+
     await handlePdf();
+    await handleUseCoin(20, "resume-download");
+    
 }
 
 

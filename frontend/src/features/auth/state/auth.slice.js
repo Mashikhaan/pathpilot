@@ -12,6 +12,11 @@ export const authSlice = createSlice({
     console.log("SET USER RUN:", action.payload);
     state.user = action.payload;
 },
+updateInterviewCoin: (state, action) => {
+    if (state.user) {
+        state.user.interviewCoin = action.payload;
+    }
+},
         setLoading: (state, action) =>{
             state.loading = action.payload
         },
@@ -21,5 +26,5 @@ export const authSlice = createSlice({
     }
 })
 
-export const { setUser, setLoading, setError } = authSlice.actions
+export const { setUser, setLoading, setError , updateInterviewCoin} = authSlice.actions
 export default authSlice.reducer

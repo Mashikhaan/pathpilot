@@ -28,10 +28,15 @@ const Sidebar = ({ collapsed, setCollapsed, mobileView, setMobileView }) => {
     const userEmail = user?.email
 
   //Logout user function
-  const logOut = () =>{
-    handleLogout();
-    
+ const logOut = async () => {
+  try {
+    await handleLogout();
+
+    navigate("/");
+  } catch (error) {
+    console.error("Logout failed:", error);
   }
+};
 
   // Nav Items
   const NAV_ITEMS = [

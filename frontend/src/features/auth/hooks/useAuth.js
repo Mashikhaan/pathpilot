@@ -1,12 +1,13 @@
 import { googleLogin, getCurrentUser, logOutUser }  from "../service/auth.api.js";
 import { setUser, setLoading, setError } from "../state/auth.slice.js";
 import { useDispatch } from "react-redux";
-    
+
 
 
 
 export const useAuth = () =>{
     const dispatch = useDispatch();
+   
   
      //handle google login
     const handleGoogleLogin = async () => {
@@ -16,11 +17,11 @@ export const useAuth = () =>{
     const data = await googleLogin();
 
     dispatch(setUser(data?.user || data));
-    navigate("/dashboard");
   } catch (error) {
     dispatch(
       setError(error.response?.data?.message || error.message)
     );
+    throw error;
   } finally {
     dispatch(setLoading(false));
   }
@@ -45,9 +46,9 @@ export const useAuth = () =>{
         dispatch(setLoading(true));
         await logOutUser();
         dispatch(setUser(null));
-        navigate("/");
       } catch (error) {
         dispatch(setError(error.message));
+        throw error;
       } finally {
         dispatch(setLoading(false));
       }
