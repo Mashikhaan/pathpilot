@@ -15,6 +15,7 @@ export const feedbackAgent = async (data) => {
       .replace(/```json/g, "")
       .replace(/```/g, "")
       .trim();
+      return JSON.parse(cleaned);
     } catch (error) {
         console.log("Error in feedback agent", error);
         console.log(response.content)
