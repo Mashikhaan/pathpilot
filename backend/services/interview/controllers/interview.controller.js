@@ -17,7 +17,7 @@ export const startInterviewController = async (req, res) => {
     } = req.body;
 
     //validation
-    if(!userId && !role){
+    if(!userId || !role){
         return res.status(400).json({
             success: false,
             message: "Interview type and role are required"
