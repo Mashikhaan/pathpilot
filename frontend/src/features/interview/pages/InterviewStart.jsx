@@ -1,5 +1,5 @@
 import React from 'react'
-import Step1setup from '../components/Step1setup'
+import Step1setup from '../components/Step1SetUp'
 const InterviewStart = () => {
   return (
   <>

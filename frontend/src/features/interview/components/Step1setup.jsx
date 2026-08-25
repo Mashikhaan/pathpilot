@@ -4,6 +4,7 @@ import { useUpdateCoin} from "../../auth/hooks/useCoin"
 import { useResume } from "../../resume/hooks/useResume";
 import { useInterview } from "../hooks/useInterview";
 
+
 import {
   FiArrowLeft,
   FiArrowRight,
@@ -24,6 +25,7 @@ import { useNavigate } from "react-router";
 
 function Step1SetUp() {
 const user = useSelector((state) => state.auth.user);
+
 
    const{handleStartInterview} = useInterview()
 
@@ -132,6 +134,7 @@ const uploadResume = async () => {
     setUploading(true);
 
     const result = await handleUploadResume(file);
+     await handleUseCoin(10, "resume-upload");
 
     console.log("Resume uploaded successfully:", result);
   } catch (error) {
@@ -149,6 +152,7 @@ const uploadResume = async () => {
 
     console.log("USER:", user);
     console.log("USER ID:", user.userId);
+     await handleUseCoin(20, "start-interview");
 
     const response = await handleStartInterview({
       userId: user?.userId,
