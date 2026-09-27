@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getInterview, startInterview, submitAnswer } from "../service/interview.api"
+import { getAllInterview, getInterview, startInterview, submitAnswer } from "../service/interview.api"
 
 
 
@@ -26,12 +26,12 @@ export const useInterview = () => {
     }
 
     //handle get single interview
-    const handleGetInterview = async (id,userId) => {
+    const handleGetInterview = async (id) => {
         try{
             setLoading(true);
             setError(null);
 
-            const result = await getInterview(id,userId);
+            const result = await getInterview(id);
             return result;
         }catch(error){
             setError(error.response?.data?.message || error.message);
@@ -41,6 +41,22 @@ export const useInterview = () => {
         }
     }
 
+
+    //handle get all interview
+    const handleGetAllInterview = async () => {
+        try{
+             setLoading(true);
+             setError(null);
+
+             const result = await getAllInterview();
+             return result;
+        }catch(error){
+            setError(error.response?.data?.message || error.message);
+            throw error;
+        }finally{
+            setLoading(false);
+        }
+    }
 
     //handle submit answer 
     const handleSubmitAnswer = async (data) => {
@@ -58,5 +74,5 @@ export const useInterview = () => {
         }
     }
 
-    return {loading, error, handleStartInterview, handleGetInterview, handleSubmitAnswer};
+    return {loading, error, handleStartInterview, handleGetInterview, handleSubmitAnswer, handleGetAllInterview};
 }

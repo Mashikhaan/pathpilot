@@ -9,10 +9,11 @@ interviewRouter.post("/start", startInterviewController);
 //interview submit answer route
 interviewRouter.post("/answer", submitAnswerController);
 
+//get all interviews
+interviewRouter.get("/all", getAllInterviewsController);
+
 //interview get route by params id
 interviewRouter.get("/:id", getInterviewController);
 
-//get all interviews
-interviewRouter.get("/", getAllInterviewsController);
 
 export default interviewRouter;

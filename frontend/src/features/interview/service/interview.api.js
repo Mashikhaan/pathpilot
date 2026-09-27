@@ -18,11 +18,6 @@ export const startInterview = async (data) => {
         type: data.type,
         useResume: data.useResume,
         resume: data.resume,
-      },
-      {
-        headers: {
-          "x-user-id": data.userId,
-        },
       }
     );
 
@@ -39,16 +34,24 @@ export const startInterview = async (data) => {
 //get single interview
 export const getInterview = async (id, userId) => {
     try {
-        const response = await InterviewApiInstance.get(`/api/interview/${id}`, {
-            headers: {
-                "x-user-id": userId,
-            },
-        });
+        const response = await InterviewApiInstance.get(`/api/interview/${id}`);
         return response.data;
     } catch (error) {
         console.log("Error getting interview:", error);
         throw error;
     }
+}
+
+//get all interview
+export const getAllInterview = async () => {
+  try {
+    const response = await InterviewApiInstance.get(`/api/interview/all`);
+    console.log("All interviews:", response.data);
+    return response.data;
+  } catch (error) {
+    console.log("Error getting all interviews:", error);
+    throw error;
+  }
 }
 
 
@@ -61,11 +64,6 @@ export const submitAnswer = async (data) => {
       interviewId: data.interviewId,
       answer: data.answer,
     },
-    {
-      headers: {
-        "x-user-id": data.userId,
-      },
-    }
     );
     return response.data;
   }catch(error){

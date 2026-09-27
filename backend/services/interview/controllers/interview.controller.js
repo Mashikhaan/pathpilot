@@ -1,11 +1,12 @@
 import graph from "../graph/graph.js";
 import interviewModel from "../models/interview.model.js";
+import redis from "../../../shared/redis/redis.js";
 
 //interview start controller
 export const startInterviewController = async (req, res) => {
   try {
     //get user id from custom header
-    const userId = req.headers["x-user-id"];
+    const userId = req.headers["x-user_id"];
 
     const { type, role, useResume = false, resume = {} } = req.body;
 
@@ -70,7 +71,7 @@ export const startInterviewController = async (req, res) => {
 export const submitAnswerController = async (req, res) => {
   try {
     //get interview id from custom header
-    const userId = req.headers["x-user-id"];
+    const userId = req.headers["x-user_id"];
 
     const { interviewId, answer } = req.body;
 
@@ -187,7 +188,7 @@ export const submitAnswerController = async (req, res) => {
 export const getInterviewController = async (req, res) => {
   try {
     //get userId from custom header
-    const userId = req.headers["x-user-id"];
+    const userId = req.headers["x-user_id"];
     //get id from param
     const { id } = req.params;
 
@@ -223,7 +224,7 @@ export const getInterviewController = async (req, res) => {
 export const getAllInterviewsController = async (req, res) => {
   try {
     //get userId from custom header
-    const userId = req.headers["x-user-id"];
+    const userId = req.headers["x-user_id"];
 
     //get from redis if exist
     const cache = await redis.get(`interviews:${userId}`);
@@ -284,26 +285,26 @@ export const getAllInterviewsController = async (req, res) => {
       }
 
       const total = {
-        Correctness: 0,
-        Clarity: 0,
-        Relevance: 0,
-        Detail: 0,
-        Efficiency: 0,
-        Communication: 0,
+        correctness: 0,
+        clarity: 0,
+        relevance: 0,
+        detail: 0,
+        efficiency: 0,
+        communication: 0,
         problemSolving: 0,
-        Creativity: 0,
+        creativity: 0,
       };
 
       list.forEach((interview) => {
         interview.questions.forEach((q) => {
-          total.Correctness += q.feedback.Correctness || 0;
-          total.Clarity += q.feedback.Clarity || 0;
-          total.Relevance += q.feedback.Relevance || 0;
-          total.Detail += q.feedback.Detail || 0;
-          total.Efficiency += q.feedback.Efficiency || 0;
-          total.Communication += q.feedback.Communication || 0;
-          total.ProblemSolving += q.feedback.ProblemSolving || 0;
-          total.Creativity += q.feedback.Creativity || 0;
+          total.correctness += q.feedback?.correctness || 0;
+          total.clarity += q.feedback?.clarity || 0;
+          total.relevance += q.feedback?.relevance || 0;
+          total.detail += q.feedback?.detail || 0;
+          total.efficiency += q.feedback?.efficiency || 0;
+          total.communication += q.feedback?.communication || 0;
+          total.problemSolving += q.feedback?.problemSolving || 0;
+          total.creativity += q.feedback?.creativity || 0;
         });
       });
        
@@ -323,14 +324,14 @@ export const getAllInterviewsController = async (req, res) => {
       }
 
       return [
-        { skill: "Correctness", score: Math.round(total.Correctness / count) },
-        { skill: "Clarity", score: Math.round(total.Clarity / count) },
-        { skill: "Relevance", score: Math.round(total.Relevance / count) },
-        { skill: "Detail", score: Math.round(total.Detail / count) },
-        { skill: "Efficiency", score: Math.round(total.Efficiency / count) },
-        { skill: "Communication", score: Math.round(total.Communication / count) },
-        { skill: "Problem solving", score: Math.round(total.ProblemSolving / count) },
-        { skill: "Creativity", score: Math.round(total.Creativity / count) },
+        { skill: "Correctness", score: Math.round(total.correctness / count) },
+        { skill: "Clarity", score: Math.round(total.clarity / count) },
+        { skill: "Relevance", score: Math.round(total.relevance / count) },
+        { skill: "Detail", score: Math.round(total.detail / count) },
+        { skill: "Efficiency", score: Math.round(total.efficiency / count) },
+        { skill: "Communication", score: Math.round(total.communication / count) },
+        { skill: "Problem solving", score: Math.round(total.problemSolving / count) },
+        { skill: "Creativity", score: Math.round(total.creativity / count) },
       ];
     };
 
