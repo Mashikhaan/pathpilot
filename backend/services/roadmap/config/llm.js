@@ -11,5 +11,6 @@ const llm = new ChatGroq({
 })
 
 
+export default llm;
 
 
