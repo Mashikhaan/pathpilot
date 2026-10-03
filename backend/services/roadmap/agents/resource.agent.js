@@ -1,5 +1,5 @@
 import llm from "../config/llm.js";
-import { SystemMessage, HumanMessage } from "langchain/schema";
+import { SystemMessage, HumanMessage } from "@langchain/core/messages";
 import resourcePrompt from "../prompt/resource.prompt.js";
 import searchVideos from "../config/youtube.js";
 

@@ -1,5 +1,5 @@
-import llm from "../config/llm";
-import { SystemMessage, HumanMessage } from "langchain/schema";
+import llm from "../config/llm.js";
+import { SystemMessage, HumanMessage } from "@langchain/core/messages";
 import roadmapPrompt from "../prompt/roadmap.prompt.js"
 
 //roadmap agent
