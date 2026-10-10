@@ -14,6 +14,6 @@ app.use("/",roadmapRouter)
 
 
 app.listen(PORT,  () => {
-  console.log(`SERVER LISTENING ON ${PORT}`);
+  console.log(`Roadmap service running on port ${PORT}`);
   connectToDb();
 });

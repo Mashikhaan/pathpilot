@@ -7,6 +7,8 @@ import ResumeBuilder from "../features/resume/pages/ResumeBuilder"
 import InterviewStart from "../features/interview/pages/InterviewStart"
 import InterviewPage from "../features/interview/pages/InterviewPage"
 import InterviewReport from "../features/interview/pages/InterviewReport"
+import Roadmap from "../features/roadmap/pages/Roadmap"
+
 
 
 //routes create
@@ -52,6 +54,12 @@ export const router = createBrowserRouter([
         path: '/interview/:id/report',
         element: <Protected>
             <InterviewReport />
+            </Protected>
+    },
+    {
+        path: '/roadmap',
+        element: <Protected>
+            <Roadmap />
             </Protected>
     }
    
