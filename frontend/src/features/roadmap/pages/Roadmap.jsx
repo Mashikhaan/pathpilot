@@ -13,10 +13,12 @@ import { BsRocketTakeoff } from "react-icons/bs";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import { useGenerateRoadmap } from "../hooks/useGenerateRoadmap";
+import { useUpdateCoin } from "../../auth/hooks/useCoin";
 
 const PACKAGE_OPTIONS = ["10 LPA", "15 LPA", "20 LPA", "30 LPA", "40 LPA"];
 const Roadmap = () => {
   const navigate = useNavigate();
+  const {handleUseCoin} = useUpdateCoin()
 
   const [historyOpen, setHistoryOpen] = useState(false);
   const [role, setRole] = useState("");
@@ -40,8 +42,9 @@ const handleGenerate = async () => {
         useResume,
         resume: null
       })
+      await handleUseCoin(20, "roadmap generation")
     } catch (error) {
-       console.error("Generate roadmap failed:", err);
+       console.error("Generate roadmap failed:", error);
     }
 }
 
