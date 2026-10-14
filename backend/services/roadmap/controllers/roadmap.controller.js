@@ -10,7 +10,7 @@ export const generateRoadmapController = async (req, res) => {
         const { role, targetPackage, useResume = false, resume} = req.body;
 
         //get user from header
-        const userId = req.headers["x-user-id"];
+        const userId = req.headers["x-user_id"];
 
         //validation for role and targetPackage
         if(!role || !targetPackage){

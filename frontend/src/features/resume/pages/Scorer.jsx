@@ -662,8 +662,8 @@ await handleUseCoin(10, "resume_analysis");
                   </h3>
 
                   <div className="flex flex-wrap gap-2">
-                    {resume?.Strength?.length > 0 ? (
-                      resume.Strength.map((item) => (
+                    {resume?.strengths?.length > 0 ? (
+                      resume.strengths.map((item) => (
                         <span
                           key={item}
                           className="rounded-md border border-green-500/20 bg-green-500/10 px-3 py-1.5 text-xs text-green-300"
@@ -686,8 +686,8 @@ await handleUseCoin(10, "resume_analysis");
                   </h3>
 
                   <div className="flex flex-wrap gap-2">
-                    {resume?.weakness?.length > 0 ? (
-                      resume.weakness.map((item) => (
+                    {resume?.weaknesses?.length > 0 ? (
+                      resume.weaknesses.map((item) => (
                         <span
                           key={item}
                           className="rounded-md border border-yellow-500/20 bg-yellow-500/10 px-3 py-1.5 text-xs text-yellow-300"

@@ -48,11 +48,11 @@ const resumeSchema = new mongoose.Schema({
         type: [String],
         default: []
     },
-    Strength: {
+    strengths: {
         type: [String],
         default: []
     },
-    weakness: {
+    weaknesses: {
         type: [String],
         default: []
     },

@@ -12,21 +12,40 @@ import {
 import { BsRocketTakeoff } from "react-icons/bs";
 import { useNavigate } from "react-router";
 import { useState } from "react";
+import { useGenerateRoadmap } from "../hooks/useGenerateRoadmap";
 
 const PACKAGE_OPTIONS = ["10 LPA", "15 LPA", "20 LPA", "30 LPA", "40 LPA"];
 const Roadmap = () => {
   const navigate = useNavigate();
 
   const [historyOpen, setHistoryOpen] = useState(false);
-  const [roadmap, setRoadmap] = useState(null);
   const [role, setRole] = useState("");
   const [targetPackage, setTargetPackage] = useState(PACKAGE_OPTIONS[2]); // default "20 LPA"
   const [packageOpen, setPackageOpen] = useState(false);
   const [useResume, setUseResume] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [historyLoading, setHistoryLoading] = useState(false);
   const [history, setHistory] = useState([]);
-  const [error, setError] = useState("");
+ 
+
+const { roadmap, loading, error, handleGenerateRoadmap, clearRoadmap } = useGenerateRoadmap();
+
+//handleGenerate 
+const handleGenerate = async () => {
+    if (!role.trim()) return;
+
+    try {
+      await handleGenerateRoadmap({
+        role: role.trim(),
+        targetPackage,
+        useResume,
+        resume: null
+      })
+    } catch (error) {
+       console.error("Generate roadmap failed:", err);
+    }
+}
+
+
 
   return (
     <div className="min-h-screen bg-white text-[#0A0A0A] flex flex-col">
@@ -109,7 +128,7 @@ const Roadmap = () => {
             <RoadmapResult
               key="roadmap"
               roadmap={roadmap}
-              onClear={() => setRoadmap(null)}
+               onClear={clearRoadmap}
             />
           )}
         </AnimatePresence>
@@ -280,8 +299,9 @@ const Roadmap = () => {
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.96 }}
-              // onClick={handleGenerate}
+              onClick={handleGenerate}
               disabled={loading || !role.trim()}
+              onClear={clearRoadmap}
               className="relative flex items-center gap-1.5 text-xs px-3 sm:px-4 py-2 rounded-xl font-semibold text-[#0A0A0A] bg-white hover:bg-white/90 shadow-[0_2px_10px_rgba(255,255,255,0.12)] transition-all disabled:opacity-40 disabled:cursor-not-allowed whitespace-nowrap cursor-pointer"
             >
               {loading ? (
