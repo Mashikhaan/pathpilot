@@ -11,13 +11,19 @@ import {
 } from "react-icons/fi";
 import { BsRocketTakeoff } from "react-icons/bs";
 import { useNavigate } from "react-router";
-import { useState } from "react";
-import { useGenerateRoadmap } from "../hooks/useGenerateRoadmap";
+import { useEffect, useState } from "react";
+import { useRoadmap } from "../hooks/useRoadmap";
 import { useUpdateCoin } from "../../auth/hooks/useCoin";
+import { useSelector } from "react-redux";
+import { useResume as useResumeHook } from "../../resume/hooks/useResume";
+import RoadmapResult from "../components/RoadmapResult";
 
 const PACKAGE_OPTIONS = ["10 LPA", "15 LPA", "20 LPA", "30 LPA", "40 LPA"];
 const Roadmap = () => {
   const navigate = useNavigate();
+  const resume = useSelector((state) => state.resume.resume);
+  const resumeLoading = useSelector((state) => state.resume.loading);
+  const { handleGetResume } = useResumeHook();
   const {handleUseCoin} = useUpdateCoin()
 
   const [historyOpen, setHistoryOpen] = useState(false);
@@ -25,11 +31,25 @@ const Roadmap = () => {
   const [targetPackage, setTargetPackage] = useState(PACKAGE_OPTIONS[2]); // default "20 LPA"
   const [packageOpen, setPackageOpen] = useState(false);
   const [useResume, setUseResume] = useState(false);
-  const [historyLoading, setHistoryLoading] = useState(false);
-  const [history, setHistory] = useState([]);
+  
  
 
-const { roadmap, loading, error, handleGenerateRoadmap, clearRoadmap } = useGenerateRoadmap();
+const { roadmap,setRoadmap, loading, error, handleGenerateRoadmap, clearRoadmap, handleGetAllRoadmaps,history, historyLoading,handleGetRoadmapById } = useRoadmap();
+
+  // Load the saved resume for this page; Redux starts empty after a page reload.
+  useEffect(() => {
+    handleGetResume().catch((error) => {
+      console.error("Failed to fetch resume:", error);
+    });
+  }, [handleGetResume]);
+
+  //load get all resume 
+useEffect(() => {
+  handleGetAllRoadmaps().catch((error) => {
+    console.error("Failed to fetch roadmaps:", error);
+  });
+}, [handleGetAllRoadmaps]);
+
 
 //handleGenerate 
 const handleGenerate = async () => {
@@ -40,7 +60,7 @@ const handleGenerate = async () => {
         role: role.trim(),
         targetPackage,
         useResume,
-        resume: null
+        resume: useResume ? resume : null
       })
       await handleUseCoin(20, "roadmap generation")
     } catch (error) {
@@ -48,7 +68,11 @@ const handleGenerate = async () => {
     }
 }
 
-
+//handle get roadmap by id
+const getRoadmapById = async(id) => {
+    const result = await handleGetRoadmapById(id);
+    setRoadmap(result.data)
+}
 
   return (
     <div className="min-h-screen bg-white text-[#0A0A0A] flex flex-col">
@@ -141,6 +165,7 @@ const handleGenerate = async () => {
       <AnimatePresence>
         {historyOpen && (
           <>
+          {/* overlay layer */}
             <motion.div
               key="backdrop"
               initial={{ opacity: 0 }}
@@ -179,25 +204,25 @@ const handleGenerate = async () => {
                     No roadmaps yet.
                   </p>
                 ) : (
-                  history.map((item) => (
+                  history.map((h,i) => (
                     <motion.button
-                      key={item._id}
+                      key={h._id}
                       onClick={() => {
-                        getRoadmapById(item._id);
+                        getRoadmapById(h._id);
                         setHistoryOpen(false);
                       }}
-                      className="relative overflow-hidden text-left p-4 rounded-xl bg-black/90 border border-white/10"
+                      className="relative overflow-hidden text-left p-4 rounded-xl bg-black/90 border border-white/10 cursor-pointer"
                     >
-                      <h3 className="text-white font-semibold">{item.title}</h3>
+                      <h3 className="text-white font-semibold">{h.title}</h3>
                       <div className="flex justify-between items-center my-1">
                         <span className="text-violet-400 text-xs">
-                          {item.targetPackage}
+                          {h.targetPackage}
                         </span>
-                        <p className="text-xs text-white/40">{item.duration}</p>
+                        <p className="text-xs text-white/40">{h.duration}</p>
                       </div>
 
                       <p className="text-xs text-white/30 mt-1">
-                        {new Date(item.createdAt).toLocaleDateString()}
+                        {new Date(h.createdAt).toLocaleDateString()}
                       </p>
                     </motion.button>
                   ))
@@ -278,14 +303,19 @@ const handleGenerate = async () => {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => setUseResume(!useResume)}
+              disabled={resumeLoading || !resume}
               type="button"
-              className={`flex items-center text-xs gap-1 px-2 py-2 rounded-xl cursor-pointer ${
+              className={`flex items-center text-xs gap-1 px-2 py-2 rounded-xl cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 ${
                 useResume
                   ? "bg-emerald-500/10 text-emerald-400"
                   : "bg-white/5 text-white/60"
               }`}
             >
-              {useResume ? (
+              {resumeLoading ? (
+                "Loading resume…"
+              ) : !resume ? (
+                "No resume"
+              ) : useResume ? (
                 <>
                   <FiCheck size={12} />
                   Added
@@ -330,6 +360,11 @@ const handleGenerate = async () => {
               )}
             </motion.button>
           </motion.div>
+          {!resumeLoading && !resume && (
+            <p className="mt-1 text-center text-[11px] text-black/50">
+             Resume not found,please upload first in resume service.
+            </p>
+          )}
         </div>
       </div>
     </div>

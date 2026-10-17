@@ -2,6 +2,7 @@
 import {uploadResume, getResume} from "../service/resume.api.js";
 import { setResume, setLoading, setError} from "../state/resume.slice.js";
 import {useDispatch} from "react-redux";
+import { useCallback } from "react";
 
 
 
@@ -27,7 +28,7 @@ export const useResume = () => {
 
 
     //handle get resume function
-    const handleGetResume = async () => {
+    const handleGetResume = useCallback(async () => {
         try{
             dispatch(setLoading(true));
             const result = await getResume();
@@ -39,10 +40,9 @@ export const useResume = () => {
         }finally{
             dispatch(setLoading(false));
         }
-        }
+        }, [dispatch]);
 
         
         return {handleUploadResume, handleGetResume};
 
     }
-

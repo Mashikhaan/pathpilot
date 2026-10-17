@@ -64,7 +64,7 @@ export const generateRoadmapController = async (req, res) => {
 //get all roadmaps controller create
 export const getAllRoadmapsController = async (req, res) => {
     try {
-        const userId = req.headers["x-user-id"];
+        const userId = req.headers["x-user_id"];
         
         //cache 
         const cache = await redis.get(`userRoadmaps:${userId}`);
@@ -103,7 +103,7 @@ export const getAllRoadmapsController = async (req, res) => {
 export const getRoadmapByIdController = async (req, res) => {
     try {
       const { id } = req.params;
-      const userId = req.headers["x-user-id"];
+      const userId = req.headers["x-user_id"];
 
       //get roadmap from cache
       const cache = await redis.get(`roadmap:${id}`);
