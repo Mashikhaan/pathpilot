@@ -77,6 +77,7 @@ const handlePayment = async (plan) => {
           dispatch(updateInterviewCoin(result.interviewCoin));
           
           window.alert("Payment verified successfully");
+          navigate("/dashboard")
         } catch (err) {
           console.error("Payment verification failed:", err);
         }
