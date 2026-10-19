@@ -1,5 +1,4 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import { motion } from "motion/react";
@@ -7,12 +6,14 @@ import { FiMenu, FiX } from "react-icons/fi";
 import { BsStars } from "react-icons/bs";
 import PricingCard from "../components/PricingCard";
 import { useBilling } from "../hooks/useBilling";
+import { updateInterviewCoin } from "../../auth/state/auth.slice";
 
 const Billing = () => {
 
   const [showMenu, setShowMenu] = useState(false);
 
   const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -72,7 +73,8 @@ const handlePayment = async (plan) => {
 
       handler: async (paymentDetails) => {
         try {
-          await handleVerifyPayment(paymentDetails);
+          const result = await handleVerifyPayment(paymentDetails);
+          dispatch(updateInterviewCoin(result.interviewCoin));
           
           window.alert("Payment verified successfully");
         } catch (err) {

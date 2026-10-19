@@ -80,6 +80,13 @@ export const verifyPaymentController = async (req, res) => {
         })
        }
 
+       if (payment.userId.toString() !== req.headers["x-user_id"]) {
+        return res.status(403).json({
+            success: false,
+            message: "Payment does not belong to this user"
+        })
+       }
+
        
        //generate signature 
       const genSign = crypto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET).update(`${razorpay_order_id}|${razorpay_payment_id}`).digest("hex");
@@ -95,24 +102,46 @@ export const verifyPaymentController = async (req, res) => {
        })
       }
 
-      //if payment status is already paid then return
-      if(payment.status === "paid"){
-        return res.status(200).json({
-            success: true,
-            message: "Payment already verified"
-        })
+      if (!process.env.AUTH_SERVICE_URL || !process.env.INTERNAL_SERVICE_SECRET) {
+        throw new Error("Auth service URL or internal service secret is not configured");
       }
 
-      //otherwise update payment status
-      payment.status = "paid"
-      payment.razorpayPaymentId = razorpay_payment_id
-      payment.razorpaySignature = razorpay_signature
+      const wasAlreadyPaid = payment.status === "paid";
 
-      await payment.save(); //save in mongodb
+      // Billing calls auth directly; the frontend never chooses the credit amount.
+      const creditResponse = await fetch(
+        `${process.env.AUTH_SERVICE_URL}/internal/credit-coins`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-internal-secret": process.env.INTERNAL_SERVICE_SECRET
+          },
+          body: JSON.stringify({
+            userId: payment.userId.toString(),
+            coins: payment.interviewCoins,
+            orderId: payment.razorpayOrderId,
+            sessionId: req.headers["x-session-id"]
+          })
+        }
+      );
+      const creditResult = await creditResponse.json();
+
+      if (!creditResponse.ok || !creditResult.success) {
+        throw new Error(creditResult.message || "Auth service could not credit coins");
+      }
+
+      if (payment.status !== "paid") {
+        payment.status = "paid";
+        payment.razorpayPaymentId = razorpay_payment_id;
+        payment.razorpaySignature = razorpay_signature;
+        await payment.save();
+      }
 
       return res.status(200).json({
         success: true,
-        message: "Payment successfully"
+        message: wasAlreadyPaid ? "Payment already verified" : "Payment successfully",
+        interviewCoin: creditResult.interviewCoin
       })
      }catch (error) {
   console.error("Payment verification error:", error);

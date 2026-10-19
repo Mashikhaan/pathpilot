@@ -1,5 +1,10 @@
 import express from "express";
-import { addCoinsController, googleAuthController, logOutController, useCoinsController } from "../controllers/auth.controller.js";
+import {
+    creditCoinsFromPaymentController,
+    googleAuthController,
+    logOutController,
+    useCoinsController
+} from "../controllers/auth.controller.js";
 
 const authRouter = express.Router();
 
@@ -18,7 +23,7 @@ authRouter.post("/logout", logOutController)
 authRouter.post("/use-coins", useCoinsController)
 
 
-//add coins route
-authRouter.post("/add-coins", addCoinsController)
+//Internal route called by the billing service after payment verification.
+authRouter.post("/internal/credit-coins", creditCoinsFromPaymentController)
 
 export default authRouter

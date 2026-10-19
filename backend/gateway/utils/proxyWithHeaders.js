@@ -2,7 +2,7 @@ import proxy from "express-http-proxy";
 
 
 
-export const proxyWithHeaders = (serviceUrl) =>{
+export const proxyWithHeaders = (serviceUrl, {forwardSession = false} = {}) =>{
     return proxy (
         serviceUrl,
         {
@@ -13,6 +13,9 @@ export const proxyWithHeaders = (serviceUrl) =>{
                     console.log("USER ID:", srcReq.user.userId);
 
                     proxyReqOpts.headers["x-user_id"] = srcReq.user.userId
+                    if (forwardSession) {
+                        proxyReqOpts.headers["x-session-id"] = srcReq.cookies?.session
+                    }
                 }
                 return proxyReqOpts
             }

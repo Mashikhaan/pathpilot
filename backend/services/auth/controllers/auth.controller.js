@@ -1,8 +1,11 @@
 import {getAuth} from "firebase-admin/auth";
 import {app} from "../configs/firebase.js";
 import userModel from "../models/user.model.js";
+import mongoose from "mongoose";
 import crypto from "crypto";
 import redis from "../../../shared/redis/redis.js";
+
+const SESSION_TTL_SECONDS = 7 * 24 * 60 * 60;
 
 //GOOGLE Auth Controller
 export const googleAuthController = async (req, res)=>{
@@ -153,68 +156,95 @@ export const useCoinsController = async(req,res)=>{
     }
 }
 
+// Only the billing service can credit coins for a verified payment.
+export const creditCoinsFromPaymentController = async (req, res) => {
+    try {
+        if (!process.env.INTERNAL_SERVICE_SECRET) {
+            console.error("INTERNAL_SERVICE_SECRET is not configured");
+            return res.status(500).json({
+                success: false,
+                message: "Internal service authentication is not configured"
+            });
+        }
 
-
-// add coins controller after payment
-export const addCoinsController = async(req, res) => {
-    try{
-        //get the session id from the cookie
-        const sessionId = req.cookies?.session;
-
-        if(!sessionId){
+        if (req.get("x-internal-secret") !== process.env.INTERNAL_SERVICE_SECRET) {
             return res.status(401).json({
                 success: false,
-                message: "Unauthorized Access"
-            })
+                message: "Unauthorized internal request"
+            });
         }
-        
-        //get the session from redis using the session id
-        const session = await redis.get(`session:${sessionId}`);
-        //parse the session from redis
-        const sessionData = JSON.parse(session);
 
-        const {coins} = req.body;
+        const {userId, coins, orderId, sessionId} = req.body;
 
-        if(!coins || coins <=0){
+        if (
+            !mongoose.isValidObjectId(userId) ||
+            !Number.isSafeInteger(coins) ||
+            coins <= 0 ||
+            typeof orderId !== "string" ||
+            !orderId
+        ) {
             return res.status(400).json({
                 success: false,
-                message: "Valid coins are required"
-            })
+                message: "Valid user, coins, and order ID are required"
+            });
         }
 
-        //check the user exist, if exist then update the user coins
-        const user = await userModel.findById(sessionData.userId);
+        // The order ID makes retried payment callbacks safe.
+        const user = await userModel.findOneAndUpdate(
+            {
+                _id: userId,
+                creditedPaymentOrders: {$ne: orderId}
+            },
+            {
+                $inc: {interviewCoin: coins},
+                $addToSet: {creditedPaymentOrders: orderId}
+            },
+            {new: true, runValidators: true}
+        ).select("interviewCoin");
 
-        if(!user){
+        const currentUser = user || await userModel
+            .findById(userId)
+            .select("interviewCoin creditedPaymentOrders");
+
+        if (!currentUser) {
             return res.status(404).json({
                 success: false,
-                message: "user not found"
-            })
+                message: "User not found"
+            });
         }
 
-        //add coins to the user
-        user.interviewCoin += coins;
+        if (!user && !currentUser.creditedPaymentOrders.includes(orderId)) {
+            return res.status(409).json({
+                success: false,
+                message: "Could not credit payment coins"
+            });
+        }
 
-        //save the user with updated coins
-        await user.save();
+        if (sessionId) {
+            const sessionKey = `session:${sessionId}`;
+            const session = await redis.get(sessionKey);
 
-        //set updated coins in redis for fast access
-        await redis.set(`session:${sessionId}`,JSON.stringify({
-            userId: user._id,
-            name: user.name,
-            email: user.email,
-            interviewCoin: user.interviewCoin
-        }), "EX", 7 * 24 * 60 * 60) // 7 days
+            if (session) {
+                const sessionData = JSON.parse(session);
+                if (String(sessionData.userId) === userId) {
+                    await redis.set(sessionKey, JSON.stringify({
+                        ...sessionData,
+                        interviewCoin: currentUser.interviewCoin
+                    }), "EX", SESSION_TTL_SECONDS);
+                }
+            }
+        }
 
         return res.status(200).json({
             success: true,
-            message: "Coins added successfully",
-            interviewCoin: user.interviewCoin
-        })
-    }catch(error){
+            alreadyCredited: !user,
+            interviewCoin: currentUser.interviewCoin
+        });
+    } catch (error) {
+        console.error("Payment coin credit error:", error);
         return res.status(500).json({
             success: false,
-            message: error.message
-        })
+            message: "Could not credit payment coins"
+        });
     }
-}
+};

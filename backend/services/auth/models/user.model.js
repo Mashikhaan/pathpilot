@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
       interviewCoin:{
         type: Number,
         default: 150
+      },
+      creditedPaymentOrders: {
+        type: [String],
+        default: []
       }
 },{timestamps: true});
 
