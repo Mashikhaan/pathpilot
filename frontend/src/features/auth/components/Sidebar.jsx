@@ -167,7 +167,7 @@ const Sidebar = ({ collapsed, setCollapsed, mobileView, setMobileView }) => {
         <div className="flex flex-col px-2 gap-2">
           {/* Interview Coins */}
           <div
-            onClick={() => navigate("/pricing")}
+            onClick={() => navigate("/billing")}
             className={`bg-[#0A0A0A] flex items-center rounded-md cursor-pointer group ${
               collapsed ? "justify-center p-3" : "justify-between px-4 py-2"
             }`}

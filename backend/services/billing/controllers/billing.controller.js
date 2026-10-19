@@ -82,7 +82,7 @@ export const verifyPaymentController = async (req, res) => {
 
        
        //generate signature 
-      const genSign = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET).update(`${razorpay_order_id}|${razorpay_payment_id}`).digest("hex");
+      const genSign = crypto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET).update(`${razorpay_order_id}|${razorpay_payment_id}`).digest("hex");
 
       if(genSign !== razorpay_signature){
        payment.status = "failed";

@@ -4,9 +4,9 @@ import {createOrderController, verifyPaymentController} from "../controllers/bil
 const billingRouter = express.Router();
 
 //create order billing route
-billingRouter.post("create-order", createOrderController);
+billingRouter.post("/create-order", createOrderController);
 
 //verify payment billing route
-billingRouter.post("verify-payment", verifyPaymentController);
+billingRouter.post("/verify-payment", verifyPaymentController);
 
 export default billingRouter

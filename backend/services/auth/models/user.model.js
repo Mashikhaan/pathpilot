@@ -20,7 +20,6 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 150
       }
-
 },{timestamps: true});
 
 const userModel = mongoose.model("User", userSchema);

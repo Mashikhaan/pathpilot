@@ -8,7 +8,7 @@ import InterviewStart from "../features/interview/pages/InterviewStart"
 import InterviewPage from "../features/interview/pages/InterviewPage"
 import InterviewReport from "../features/interview/pages/InterviewReport"
 import Roadmap from "../features/roadmap/pages/Roadmap"
-
+import Billing from "../features/billing/pages/Billing"
 
 
 //routes create
@@ -61,6 +61,12 @@ export const router = createBrowserRouter([
         element: <Protected>
             <Roadmap />
             </Protected>
+    },
+    {
+        path: '/billing',
+        element: <Protected>
+            <Billing />
+        </Protected>
     }
    
 ])
