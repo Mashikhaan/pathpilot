@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 6000;
 const app = express();
 app.use(express.json());
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
+    origin: [process.env.FRONTEND_URL, "https://pathpilot-jet.vercel.app"],
     credentials: true
 }));
 
