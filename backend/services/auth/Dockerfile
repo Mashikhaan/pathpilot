@@ -32,6 +32,10 @@ COPY shared ./shared
 # STEP 9: Auth service folder ko working directory banana
 WORKDIR /app/services/auth
 
+# FIX STEP: Render ki secret file ko auth folder ke andar copy karna
+# Chuki ham abhi /app/services/auth ke andar hain, to '.' ka matlab yahi folder hai
+COPY /app/serviceAccountKey.json .
+
 # STEP 10: Auth service ka intended port document karna
 EXPOSE 8001
 
