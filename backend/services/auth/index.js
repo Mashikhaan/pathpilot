@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 6001;
 
 const app = express();
 
+//health check
 app.get("/", (req, res)=>{
     res.send("Auth service is running");
 })

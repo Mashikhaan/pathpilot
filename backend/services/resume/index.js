@@ -13,9 +13,9 @@ const PORT = process.env.PORT || 6002
 app.use(express.json());
 app.use("/", resumeRouter);
 
-
+//health check
 app.get("/", (req, res)=>{
-    res.send("hello from resume service");
+    res.send("Resume service is running");
 })
 
 app.listen(PORT, () =>{

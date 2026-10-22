@@ -10,6 +10,11 @@ const PORT = process.env.PORT || 6004;
 
 app.use(express.json());
 
+//health check
+app.get("/", (req, res) => {
+    res.send("Roadmap service is running");
+});
+
 app.use("/",roadmapRouter)
 
 

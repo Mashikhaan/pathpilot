@@ -15,6 +15,7 @@ app.use(express.json());
 //pre route
 app.use("/", interviewRouter);
 
+//health check
 app.get("/", (req, res) => {
     res.send("Interview service is running");
 })

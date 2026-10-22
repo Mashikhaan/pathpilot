@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import { isAuth } from "./middleware/isAuth.js";
 import { getCurrentUser } from "./controllers/user.controller.js";
 import { proxyWithHeaders } from "./utils/proxyWithHeaders.js";
+import axios from "axios";
 
 const PORT = process.env.PORT || 6000;
 
@@ -21,10 +22,24 @@ app.use(cors({
 
 app.use(cookieParser());
 
-//health check
-app.get("/", (req, res)=>{
-    res.send("Gateway is running");
-})
+// Health check with wake-up ping for microservices
+app.get("/", async (req, res) => {
+    // Background me sari microservices ko non-blocking tareeqe se ping karein
+    const serviceUrls = [
+        process.env.AUTH_SERVICE_URL,
+        process.env.RESUME_SERVICE_URL,
+        process.env.INTERVIEW_SERVICE_URL,
+        process.env.ROADMAP_SERVICE_URL,
+        process.env.BILLING_SERVICE_URL
+    ].filter(Boolean); // Null/undefined remove karne ke liye
+
+    // Promise.allSettled ka use karein taaki agar ek service slow/down ho toh baki fail na ho
+    Promise.allSettled(
+        serviceUrls.map(url => axios.get(url).catch(() => null))
+    );
+
+    res.send("Gateway and microservices wake-up triggered successfully");
+});
 
 //middlewares
 app.use(morgan("dev"));
