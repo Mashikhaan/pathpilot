@@ -16,7 +16,6 @@ const Step3report = ({ report, user }) => {
   const navigate = useNavigate();
   const reportRef = useRef();
 
-  console.log("Report data:", report);
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center md:p-5">

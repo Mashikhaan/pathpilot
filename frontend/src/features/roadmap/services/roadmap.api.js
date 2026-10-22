@@ -19,7 +19,6 @@ export const generateRoadmap = async (data) => {
 
         return response.data;
     }catch(error){
-        console.log("Error generating roadmap:", error);
         throw error;
     }
 }
@@ -30,7 +29,6 @@ export const getAllRoadmaps = async () => {
         const response = await RoadmapApiInstance.get("/api/roadmap/all")
         return response.data;
     }catch(error){
-        console.log("Error fetching all roadmaps:", error);
         throw error;
     }
 }
@@ -41,7 +39,6 @@ export const getRoadmapById = async (id) => {
         const response = await RoadmapApiInstance.get(`/api/roadmap/${id}`)
         return response.data;
     } catch (error) {
-        console.log("Error fetching roadmap by id:", error);
         throw error;
     }
 }

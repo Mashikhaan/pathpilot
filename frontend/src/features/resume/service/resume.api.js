@@ -17,7 +17,6 @@ export const uploadResume = async(resume) =>{
         const response = await ResumeApiInstance.post("/api/resume/upload",formData);
         return response.data;
     }catch(error){
-        console.log("Error uploading resume:",error);
         throw error;
     }
 }
@@ -29,7 +28,6 @@ export const getResume = async() => {
         const response = await ResumeApiInstance.get("/api/resume/get-resume");
         return response.data;
     }catch(error){
-        console.log("Error getting resume:",error);
         throw error;
     }
 }

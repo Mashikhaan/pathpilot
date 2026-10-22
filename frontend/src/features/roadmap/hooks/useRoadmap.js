@@ -17,7 +17,7 @@ export const useRoadmap = () => {
       setError(null);
 
       const result = await generateRoadmap(data);
-      console.log(result.data)
+     
       setRoadmap(result.data);
       return result;
     } catch (err) {

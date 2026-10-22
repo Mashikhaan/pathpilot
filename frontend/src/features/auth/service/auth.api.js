@@ -12,8 +12,7 @@ const AuthApiInstance = axios.create({
 export const googleLogin = async () => {
     try {
         const result = await signInWithPopup(auth,provider);
-        console.log("User Data:", result.user);
-
+        
         const token = await result.user.getIdToken();
 
         const response = await AuthApiInstance.post(
@@ -26,7 +25,6 @@ export const googleLogin = async () => {
         return response.data;
 
     } catch(error) {
-        console.log("Firebase login error:", error);
         throw error;
     }
 };
@@ -35,10 +33,9 @@ export const googleLogin = async () => {
 export const getCurrentUser = async () => {
     try {
         const response = await AuthApiInstance.get("/api/get-me")
-        console.log("Current User:", response.data);
+
         return response.data
     } catch (error) {
-        console.log("Error getting current user:", error);
         throw error;
     }
 }
@@ -48,7 +45,6 @@ export const logOutUser = async () => {
   try {
     await AuthApiInstance.post("/api/auth/logout");
   } catch (error) {
-    console.error("Error logging out user:", error);
     throw error;
   }
 };
@@ -60,7 +56,6 @@ export const useCoin = async (coins, action) => {
         const response = await AuthApiInstance.post("/api/auth/use-coins",{coins, action});
         return response.data
     }catch(error){
-        console.log("Error using coin:", error);
         throw error
     }
 }

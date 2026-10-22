@@ -10,7 +10,6 @@ export const authSlice = createSlice({
   },
   reducers: {
     setUser: (state, action) => {
-      console.log("SET USER RUN:", action.payload);
       state.user = action.payload;
     },
     updateInterviewCoin: (state, action) => {

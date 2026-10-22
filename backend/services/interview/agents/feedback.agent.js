@@ -18,7 +18,6 @@ export const feedbackAgent = async (data) => {
       return JSON.parse(cleaned);
     } catch (error) {
         console.log("Error in feedback agent", error);
-        console.log(response.content)
         throw new Error("Failed to generate feedback.");
     }
 }

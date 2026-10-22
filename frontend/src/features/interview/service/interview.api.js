@@ -21,11 +21,10 @@ export const startInterview = async (data) => {
       }
     );
 
-    console.log(response.data);
+    
     return response.data;
 
   } catch (error) {
-    console.log("Error starting interview:", error);
     throw error;
   }
 };
@@ -37,7 +36,6 @@ export const getInterview = async (id, userId) => {
         const response = await InterviewApiInstance.get(`/api/interview/${id}`);
         return response.data;
     } catch (error) {
-        console.log("Error getting interview:", error);
         throw error;
     }
 }
@@ -46,10 +44,9 @@ export const getInterview = async (id, userId) => {
 export const getAllInterview = async () => {
   try {
     const response = await InterviewApiInstance.get(`/api/interview/all`);
-    console.log("All interviews:", response.data);
+    
     return response.data;
   } catch (error) {
-    console.log("Error getting all interviews:", error);
     throw error;
   }
 }
@@ -67,7 +64,6 @@ export const submitAnswer = async (data) => {
     );
     return response.data;
   }catch(error){
-    console.log("Error submitting answer:", error);
     throw error;
   }
 }

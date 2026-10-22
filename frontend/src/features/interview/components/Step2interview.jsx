@@ -246,10 +246,6 @@ function Step2Interview({ interviewData, user }) {
   const submit = async () => {
     if (!answer.trim()) return;
 
-  console.log("interviewData:", interviewData);
-  console.log("interviewId:", interviewData.interviewId);
-  console.log("answer:", answer);
-
       setTimerActive(false); // stop the countdown as soon as the answer is submitted
       setLoading(true);
       const res = await handleSubmitAnswer({

@@ -130,7 +130,6 @@ const handleDrop = (e) => {
       // Backend ko resume bhej rahe hain
       const result = await handleUploadResume(file);
 
-      console.log("FULL RESULT:", result);
 
       if (!result?.success) {
         throw new Error(result?.message || "Resume analysis failed");

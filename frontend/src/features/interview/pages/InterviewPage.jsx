@@ -26,8 +26,6 @@ const InterviewPage = () => {
           return;
         }
 
-        console.log("GET INTERVIEW RESPONSE:", result);
-
         setInterview(result.interview);
       } catch (error) {
         console.error("Failed to get interview:", error);

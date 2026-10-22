@@ -59,7 +59,7 @@ export const startInterviewController = async (req, res) => {
       question: interview.questions[0],
     });
   } catch (error) {
-    console.log("Error in start interview controller", error);
+    console.error("Error in start interview controller", error);
     return res.status(500).json({
       success: false,
       message: error.message,
@@ -176,7 +176,7 @@ export const submitAnswerController = async (req, res) => {
       feedback: result.feedback,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).json({
       success: false,
       message: error.message,
@@ -212,7 +212,7 @@ export const getInterviewController = async (req, res) => {
       interview,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).json({
       success: false,
       message: error.message,
@@ -230,7 +230,6 @@ export const getAllInterviewsController = async (req, res) => {
     const cache = await redis.get(`interviews:${userId}`);
 
     if (cache) {
-      console.log("data comes from redis cache");
       return res.status(200).json(JSON.parse(cache));
     }
 
@@ -365,7 +364,7 @@ export const getAllInterviewsController = async (req, res) => {
     return res.status(200).json(payload);
     
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).json({
       success: false,
       message: error.message,

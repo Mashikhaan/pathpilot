@@ -20,8 +20,6 @@ export const interviewAgent = async (data) => {
 
       return JSON.parse(cleaned);
     }catch(error){
-   console.log("Error in interview agent", error);
-   console.log(response.content)
    throw new Error("Failed to generate interview questions.")
     }
 }

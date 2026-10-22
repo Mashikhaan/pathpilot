@@ -99,8 +99,7 @@ const handleDrop = (e) => {
   const{handleUseCoin} = useUpdateCoin()
   
   const resume = useSelector((state) => state.resume.resume);
-  console.log(resume)
-
+ 
   const [role, setRole]         = useState("");
   const [type, setType]         = useState("technical");
   const [shouldUseResume, setShouldUseResume] = useState(!!resume); // Set to true if resume is available
@@ -136,7 +135,6 @@ const uploadResume = async () => {
     const result = await handleUploadResume(file);
      await handleUseCoin(10, "resume-upload");
 
-    console.log("Resume uploaded successfully:", result);
   } catch (error) {
     console.error("Resume upload failed:", error);
   } finally {
@@ -150,8 +148,6 @@ const uploadResume = async () => {
   try {
     setStarting(true);
 
-    console.log("USER:", user);
-    console.log("USER ID:", user.userId);
      await handleUseCoin(20, "start-interview");
 
     const response = await handleStartInterview({
@@ -162,7 +158,6 @@ const uploadResume = async () => {
       resume,
     });
 
-    console.log("INTERVIEW RESPONSE:", response);
     navigate(`/interview/${response.interviewId}`);
 
 

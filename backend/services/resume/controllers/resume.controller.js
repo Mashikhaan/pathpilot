@@ -76,7 +76,7 @@ export const uploadResumeController =async(req, res) => {
         })
      
     } catch (error) {
-    console.log("UPLOAD RESUME ERROR:", error);
+    console.error("UPLOAD RESUME ERROR:", error);
 
     if (file?.path && fs.existsSync(file.path)) {
         fs.unlinkSync(file.path);
@@ -128,7 +128,7 @@ export const getResumeController = async(req, res) => {
 
     }catch(error){
 
-        console.log(error)
+        console.error(error)
 
         return res.status(500).json({
             success: false,

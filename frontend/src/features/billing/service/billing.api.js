@@ -14,7 +14,6 @@ export const createOrder = async (planId) => {
 
         return response.data;
     }catch(error){
-        console.log("Error creating order:", error);
         throw error;
     }
 };
