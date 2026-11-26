@@ -1,7 +1,6 @@
+import "dotenv/config";
 import express from "express";
 import morgan from "morgan";
-import dotenv from "dotenv";
-dotenv.config();
 import connectDB from "./configs/db.js";
 import authRouter from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
